@@ -1,5 +1,8 @@
 
 //** Declared Variables **/
+
+var isDebug = true;
+
 var compGuess = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var win = 0;
 var loss = 0;
@@ -8,26 +11,26 @@ var guessesMade = [];
 
 var compGuessIndex = 0;
 
-//** Function to have the browser generate a letter for the game **/
+/** Function to have the browser generate a letter to begin the game **/
 function init(){
 
     compGuessIndex = Math.floor(Math.random() * 26);
-    console.log(compGuess[compGuessIndex]);
+    if (isDebug) console.log(compGuess[compGuessIndex]);
     guessLeft = 9;
     guessesMade = [];
 }
 
-//** Function to begin guessing letters **/
+/** main function to actually play the game **/
 document.onkeyup = function(event){
 
-/**code to log what key was hit**/
+    /** code to log what key the user hit **/
     var key = event.key;
-    console.log(key);
+    if (isDebug) console.log(key);
 
-/**Code to convert to lower case**/
+    /** code to convert to entered keys lower case **/
     key = key.toLowerCase();
 
-/**Code to check for valid keyed entry**/
+    /** code to check for if a valid key was entered, isValid is set to false because the For loop will overwrite **/
     var isValid = false;
     for (i = 0; i < compGuess.length; i++){
         if (key === compGuess[i]){
@@ -36,36 +39,42 @@ document.onkeyup = function(event){
         
     }
 
+    /**  if isValid = false the log that an invalid option was made **/
     if (!isValid){
-        console.log("invalid");
+        if (isDebug) console.log("invalid");
         return;
     }
 
     for (i = 0; i < guessesMade.length; i++){
         if (key === guessesMade[i]){
-            console.log("Already guessed");
+            if (isDebug) console.log("Already guessed");
             return;
         }
     }
 
-//**Code to check if entry matched computers**//
+    /**Code to check if entry matched computers**/
     if (key === compGuess[compGuessIndex]){
         
         win++;
-        console.log("Wins " + win + ", Losses " + loss);
+        if (isDebug) console.log("Wins " + win + ", Losses " + loss);
         init();
 
     }
+
     else {
-        console.log("miss");
+
+        if (isDebug) console.log("miss");
         guessLeft--;
-        console.log("guessLeft " + guessLeft);
+        if (isDebug) console.log("guessLeft " + guessLeft);
         guessesMade.push(key);
-        console.log("Values guessed " + guessesMade);
+        if (isDebug) console.log("Values guessed " + guessesMade);
         if (guessLeft === 0){
             loss++;
-            console.log("Wins " + win + ", Losses " + loss);
+            if (isDebug) console.log("Wins " + win + ", Losses " + loss);
             init();
+
         }
+
     }
+
 }
