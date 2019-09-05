@@ -30,7 +30,7 @@ document.onkeyup = function(event){
     /** code to convert to entered keys lower case **/
     key = key.toLowerCase();
 
-    /** code to check for if a valid key was entered, isValid is set to false because the For loop will overwrite **/
+    /** code to check if a valid key was entered, isValid is set to false because the For loop will overwrite **/
     var isValid = false;
     for (i = 0; i < compGuess.length; i++){
         if (key === compGuess[i]){
@@ -42,11 +42,13 @@ document.onkeyup = function(event){
     /**  if isValid = false the log that an invalid option was made **/
     if (!isValid){
         if (isDebug) console.log("invalid");
+        document.getElementById("gameHeader").innerHTML = "<b>You're supposed to guess a letter. Did you even read the instructions, bro??</b>";
         return;
     }
 
     for (i = 0; i < guessesMade.length; i++){
         if (key === guessesMade[i]){
+            document.getElementById("gameHeader").innerHTML = "<b>You already guessed that. Pon atencion wey!</b>";
             if (isDebug) console.log("Already guessed");
             return;
         }
@@ -56,6 +58,8 @@ document.onkeyup = function(event){
     if (key === compGuess[compGuessIndex]){
         
         win++;
+        document.getElementById("wins").innerHTML = "Wins: " + win;
+        document.getElementById("gameHeader").innerHTML = "<b>Ganaste wey! Empezamos de nuevo.</b>";
         if (isDebug) console.log("Wins " + win + ", Losses " + loss);
         init();
 
@@ -66,15 +70,24 @@ document.onkeyup = function(event){
         if (isDebug) console.log("miss");
         guessLeft--;
         if (isDebug) console.log("guessLeft " + guessLeft);
+        document.getElementById("guessesLeft").innerHTML = "Guesses left: " + guessLeft;
         guessesMade.push(key);
+        document.getElementById("guessesMade").innerHTML = "Your guesses so far: " + guessesMade;
+        document.getElementById("gameHeader").innerHTML = "<b>WRONG!!</b>";
         if (isDebug) console.log("Values guessed " + guessesMade);
         if (guessLeft === 0){
             loss++;
+            document.getElementById("losses").innerHTML = "Losses: " + loss;
+            document.getElementById("guessesLeft").innerHTML = "Guesses left: " + 9;
+            document.getElementById("guessesMade").innerHTML = "Your guesses so far: ";
+            document.getElementById("gameHeader").innerHTML = "<b>Perdiste wey. Intentamos de nuevo.</b>";
             if (isDebug) console.log("Wins " + win + ", Losses " + loss);
             init();
 
         }
 
     }
+    
+
 
 }
